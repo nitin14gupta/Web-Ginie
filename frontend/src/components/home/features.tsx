@@ -48,19 +48,19 @@ export function Features() {
   ];
 
   return (
-    <section className="py-20">
+    <section className="py-20 bg-black">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold text-center mb-12">Powerful Features</h2>
+        <h2 className="text-3xl font-bold text-center mb-12 text-white">Powerful Features</h2>
         
         <div className="grid md:grid-cols-3 gap-8">
           {features.map((feature, index) => (
-            <Card key={index} className="border-none shadow-[0_2px_10px_rgba(0,0,0,0.08)]">
+            <Card key={index} className="border-zinc-800 bg-zinc-900 shadow-[0_2px_10px_rgba(0,0,0,0.3)]">
               <CardContent className="pt-6">
                 <div className={`w-12 h-12 mb-4 rounded-full ${feature.iconBg} ${feature.iconColor} flex items-center justify-center text-xl`}>
                   {feature.icon}
                 </div>
                 <h3 className="font-semibold mb-2">{feature.title}</h3>
-                <p className="text-gray-500 text-sm">{feature.description}</p>
+                <p className="text-gray-400 text-sm">{feature.description}</p>
               </CardContent>
             </Card>
           ))}

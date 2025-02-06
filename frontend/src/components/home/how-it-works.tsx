@@ -39,20 +39,20 @@ export function HowItWorks() {
   ];
 
   return (
-    <section className="py-20 bg-gray-50/50">
+    <section className="py-20 bg-zinc-900/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold text-center mb-12">How It Works</h2>
+        <h2 className="text-3xl font-bold text-center mb-12 text-white">How It Works</h2>
         
         <div className="grid md:grid-cols-4 gap-8">
           {steps.map((step, index) => (
-            <Card key={index} className="border-none shadow-[0_2px_10px_rgba(0,0,0,0.08)]">
+            <Card key={index} className="border-zinc-800 bg-zinc-900 shadow-[0_2px_10px_rgba(0,0,0,0.3)]">
               <CardContent className="pt-6 text-center">
                 <div className={`w-12 h-12 mx-auto mb-4 rounded-full ${step.iconBg} ${step.iconColor} flex items-center justify-center text-xl`}>
                   {step.icon}
                 </div>
                 <div className="text-blue-600 text-sm font-medium mb-2">{step.step}</div>
                 <h3 className="font-semibold mb-2">{step.title}</h3>
-                <p className="text-gray-500 text-sm">{step.description}</p>
+                <p className="text-gray-400 text-sm">{step.description}</p>
               </CardContent>
             </Card>
           ))}

@@ -12,13 +12,13 @@ export function Footer() {
   };
 
   return (
-    <footer className="bg-white border-t">
+    <footer className="bg-zinc-900 border-t border-zinc-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           {/* Brand Section */}
           <div className="col-span-2 md:col-span-1">
-            <div className="text-blue-600 font-semibold text-xl mb-4">AIGen</div>
-            <p className="text-gray-600 text-sm mb-4">
+            <div className="text-blue-500 font-semibold text-xl mb-4">AIGen</div>
+            <p className="text-gray-400 text-sm mb-4">
               Making website creation accessible to everyone through the power of AI.
             </p>
           </div>
@@ -30,7 +30,7 @@ export function Footer() {
               <ul className="space-y-2">
                 {items.map((item) => (
                   <li key={item}>
-                    <a href="#" className="text-gray-600 hover:text-gray-900 text-sm">
+                    <a href="#" className="text-gray-400 hover:text-gray-500 text-sm">
                       {item}
                     </a>
                   </li>
@@ -41,8 +41,8 @@ export function Footer() {
         </div>
 
         {/* Bottom Section */}
-        <div className="mt-8 pt-8 border-t flex flex-col md:flex-row justify-between items-center">
-          <div className="text-gray-600 text-sm">
+        <div className="mt-8 pt-8 border-t border-zinc-800 flex flex-col md:flex-row justify-between items-center">
+          <div className="text-gray-400 text-sm">
             © {currentYear} AIGen. All rights reserved.
           </div>
           <div className="flex space-x-6 mt-4 md:mt-0">

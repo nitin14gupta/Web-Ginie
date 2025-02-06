@@ -9,7 +9,7 @@ export function Hero() {
   };
 
   return (
-    <div className="pt-24 pb-16 text-center">
+    <div className="pt-24 pb-16 text-center text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main Heading */}
         <h1 className="text-4xl md:text-5xl font-bold mb-6">
@@ -17,7 +17,7 @@ export function Hero() {
         </h1>
         
         {/* Subheading */}
-        <p className="text-gray-600 mb-8">
+        <p className="text-gray-400 mb-8">
           Describe your idea, and we'll generate the code for you.
         </p>
 
@@ -27,7 +27,7 @@ export function Hero() {
             <input
               type="text"
               placeholder="Describe your website idea..."
-              className="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="flex-1 px-4 py-3 rounded-lg bg-zinc-900 border border-zinc-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <button 
               onClick={handleGenerate}
@@ -40,15 +40,15 @@ export function Hero() {
 
         {/* Preview Window */}
         <div className="max-w-4xl mx-auto">
-          <div className="bg-white rounded-xl shadow-[0_2px_10px_rgba(0,0,0,0.08)] overflow-hidden border border-gray-100">
+          <div className="bg-zinc-900 rounded-xl shadow-[0_2px_10px_rgba(0,0,0,0.3)] overflow-hidden border border-zinc-800">
             {/* Window Controls */}
-            <div className="bg-gray-50/80 px-4 py-3 border-b border-gray-100 flex items-center space-x-1.5">
+            <div className="bg-zinc-800/80 px-4 py-3 border-b border-zinc-700 flex items-center space-x-1.5">
               <div className="w-3 h-3 rounded-full bg-[#FF5F57]"></div>
               <div className="w-3 h-3 rounded-full bg-[#FEBC2E]"></div>
               <div className="w-3 h-3 rounded-full bg-[#28C840]"></div>
             </div>
             {/* Preview Content */}
-            <div className="aspect-[16/10] bg-gray-50 flex items-center justify-center text-gray-400">
+            <div className="aspect-[16/10] bg-zinc-800 flex items-center justify-center text-gray-500">
               Preview Window
             </div>
           </div>
