@@ -1,6 +1,7 @@
 'use client';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import api from '@/lib/api';
 
 interface User {
   id: string;
@@ -25,34 +26,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
 
   useEffect(() => {
-    // Check if user is logged in on mount
     checkAuth();
   }, []);
 
   const checkAuth = async () => {
     try {
-      // Check local storage for auth token
       const token = localStorage.getItem('auth_token');
       if (!token) {
         setLoading(false);
         return;
       }
 
-      // Verify token with backend
-      const response = await fetch('/api/auth/me', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (response.ok) {
-        const userData = await response.json();
-        setUser(userData);
-      } else {
-        localStorage.removeItem('auth_token');
+      const response = await api.get('/auth/me');
+      if (response.data) {
+        setUser(response.data);
       }
     } catch (error) {
       console.error('Auth check failed:', error);
+      localStorage.removeItem('auth_token');
     } finally {
       setLoading(false);
     }
@@ -60,22 +51,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const login = async (email: string, password: string) => {
     try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Login failed');
-      }
-
-      const { token, user: userData } = await response.json();
+      const response = await api.post('/auth/login', { email, password });
+      const { token, user: userData } = response.data;
+      
       localStorage.setItem('auth_token', token);
       setUser(userData);
-      router.push('/dashboard');
+      
+      // Force a router navigation
+      window.location.href = '/dashboard';
     } catch (error) {
       console.error('Login error:', error);
       throw error;
@@ -84,22 +67,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signup = async (data: { email: string; password: string; firstName?: string; lastName?: string }) => {
     try {
-      const response = await fetch('/api/auth/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) {
-        throw new Error('Signup failed');
-      }
-
-      const { token, user: userData } = await response.json();
+      const response = await api.post('/auth/signup', data);
+      const { token, user: userData } = response.data;
+      
       localStorage.setItem('auth_token', token);
       setUser(userData);
-      router.push('/dashboard');
+      
+      // Force a router navigation
+      window.location.href = '/dashboard';
     } catch (error) {
       console.error('Signup error:', error);
       throw error;
@@ -109,7 +84,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const logout = async () => {
     localStorage.removeItem('auth_token');
     setUser(null);
-    router.push('/login');
+    window.location.href = '/login';
   };
 
   return (

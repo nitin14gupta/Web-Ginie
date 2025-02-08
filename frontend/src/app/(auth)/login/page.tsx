@@ -25,6 +25,7 @@ export default function LoginPage() {
     try {
       await login(formData.email, formData.password);
       toast.success("Login successful!");
+      // The router.push is handled in the AuthContext
     } catch (error) {
       toast.error("Login failed. Please check your credentials.");
       console.error("Login error:", error);
@@ -60,7 +61,9 @@ export default function LoginPage() {
         <form className="mt-8" onSubmit={handleSubmit}>
           <div className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-gray-200">Email Address</Label>
+              <Label htmlFor="email" className="text-gray-200">
+                Email Address
+              </Label>
               <Input
                 id="email"
                 name="email"
@@ -74,7 +77,9 @@ export default function LoginPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-gray-200">Password</Label>
+              <Label htmlFor="password" className="text-gray-200">
+                Password
+              </Label>
               <Input
                 id="password"
                 name="password"
@@ -96,7 +101,6 @@ export default function LoginPage() {
             </button>
 
             <div className="bg-gradient-to-r from-transparent via-zinc-700 to-transparent my-8 h-[1px] w-full" />
-
           </div>
         </form>
 
@@ -107,7 +111,7 @@ export default function LoginPage() {
           </Link>
         </div>
       </div>
-      <BackgroundBeams />
+      {/* <BackgroundBeams /> */}
     </div>
   );
 }

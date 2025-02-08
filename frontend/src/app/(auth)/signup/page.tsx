@@ -1,17 +1,15 @@
 "use client";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { BackgroundBeams } from "@/components/ui/background-beams";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { useAuth } from "@/lib/auth/AuthContext";
 import { useState } from "react";
 import { toast } from "sonner";
+import axios from "@/lib/api";
 
 export default function SignupPage() {
   const router = useRouter();
-  const { signup } = useAuth();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
@@ -25,9 +23,19 @@ export default function SignupPage() {
     setLoading(true);
 
     try {
-      await signup(formData);
+      // Make the Axios POST request to the /auth/signup endpoint
+      const response = await axios.post("/auth/signup", {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        password: formData.password,
+      });
+
+      // Handle successful signup
       toast.success("Account created successfully!");
+      router.push("/dashboard"); // Redirect to login page after successful signup
     } catch (error) {
+      // Handle error (e.g., invalid credentials, etc.)
       toast.error("Signup failed. Please try again.");
       console.error("Signup error:", error);
     } finally {
@@ -127,21 +135,6 @@ export default function SignupPage() {
             </button>
 
             <div className="bg-gradient-to-r from-transparent via-zinc-700 to-transparent my-8 h-[1px] w-full" />
-
-            <div className="flex flex-col space-y-4">
-              <button
-                className="relative group/btn flex space-x-2 items-center justify-center px-4 w-full text-gray-300 rounded-md h-10 font-medium bg-zinc-800 border border-zinc-700 hover:bg-zinc-700"
-                type="button"
-              >
-                <span className="text-sm">Continue with Google</span>
-              </button>
-              <button
-                className="relative group/btn flex space-x-2 items-center justify-center px-4 w-full text-gray-300 rounded-md h-10 font-medium bg-zinc-800 border border-zinc-700 hover:bg-zinc-700"
-                type="button"
-              >
-                <span className="text-sm">Continue with GitHub</span>
-              </button>
-            </div>
           </div>
         </form>
 
@@ -152,7 +145,6 @@ export default function SignupPage() {
           </Link>
         </div>
       </div>
-      <BackgroundBeams />
     </div>
   );
-} 
+}
