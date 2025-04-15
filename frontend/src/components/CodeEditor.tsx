@@ -1,11 +1,7 @@
 import React from 'react';
 import Editor from '@monaco-editor/react';
-import { FileItem } from '../types';
+import { CodeEditorProps } from '../types/bolt';
 import { Code2 } from 'lucide-react';
-
-interface CodeEditorProps {
-  file: FileItem | null;
-}
 
 export function CodeEditor({ file }: CodeEditorProps) {
   if (!file) {

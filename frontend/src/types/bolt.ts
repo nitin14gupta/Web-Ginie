@@ -11,9 +11,10 @@ export interface BoltArtifact {
 }
 
 export interface Step {
-  id: string;
+  id: number;
   title: string;
-  status: 'completed' | 'pending' | 'failed';
+  description: string;
+  status: 'completed' | 'pending' | 'in-progress' | 'failed';
   command?: string;
   output?: string[];
 }
@@ -32,12 +33,43 @@ export interface ProjectSetup {
 export interface SearchPanelProps {
   onSearch: (value: string) => void;
   steps?: Step[];
-  onStepComplete?: (stepId: string) => void;
+  onStepComplete?: (stepId: number) => void;
+}
+
+export interface FileItem {
+  name: string;
+  type: 'file' | 'folder';
+  path: string;
+  content?: string;
+  children?: FileItem[];
+}
+
+export interface FileViewerProps {
+  file: ParsedFile | null;
+  onClose: () => void;
 }
 
 export interface CodeEditorProps {
-  isVisible: boolean;
-  onClose: () => void;
-  files?: ParsedFile[];
-  onFileChange?: (path: string, content: string) => void;
+  file: FileItem | null;
+}
+
+export interface FileExplorerProps {
+  files: FileItem[];
+  onFileSelect: (file: FileItem) => void;
+}
+
+export interface TabViewProps {
+  activeTab: 'code' | 'preview';
+  onTabChange: (tab: 'code' | 'preview') => void;
+}
+
+export interface PreviewFrameProps {
+  files: FileItem[];
+  webContainer: any; // Using any for WebContainer type as it's from an external package
+}
+
+export interface StepsListProps {
+  steps: Step[];
+  currentStep: number;
+  onStepClick: (stepId: number) => void;
 } 
