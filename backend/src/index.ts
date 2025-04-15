@@ -6,7 +6,7 @@ import authRoutes from './routes/auth';
 import { BASE_PROMPT, getSystemPrompt } from './ml/prompts'; // Assuming ml folder is at root level
 import {basePrompt as nodeBasePrompt} from './defaults/node';
 import {basePrompt as reactBasePrompt} from './defaults/react';
-import OpenAI from 'openai';
+import axios from 'axios';
 
 dotenv.config();
 
@@ -21,9 +21,16 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/webgenie'
   .then(() => console.log('Connected to MongoDB'))
   .catch((err) => console.error('MongoDB connection error:', err));
 
-// Add OpenAI initialization
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+// Deepseek API configuration
+const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY;
+const DEEPSEEK_API_URL = 'https://api.deepseek.com/v1/chat/completions';
+
+const deepseekApi = axios.create({
+  baseURL: DEEPSEEK_API_URL,
+  headers: {
+    'Authorization': `Bearer ${DEEPSEEK_API_KEY}`,
+    'Content-Type': 'application/json'
+  }
 });
 
 // Routes
@@ -33,8 +40,8 @@ app.use('/api/auth', authRoutes);
 app.post("/template", async (req, res) => {
     try {
         const prompt = req.body.prompt;
-        const completion = await openai.chat.completions.create({
-            model: "gpt-3.5-turbo",
+        const response = await deepseekApi.post('', {
+            model: "deepseek-chat",
             messages: [{
                 role: 'system',
                 content: "Return either node or react based on what do you think this project should be. Only return a single word either 'node' or 'react'. Do not return anything extra"
@@ -43,9 +50,10 @@ app.post("/template", async (req, res) => {
                 content: prompt
             }],
             max_tokens: 200,
+            temperature: 0.7
         });
 
-        const answer = completion.choices[0].message.content?.toLowerCase().trim() || '';
+        const answer = response.data.choices[0].message.content?.toLowerCase().trim() || '';
         
         if (answer === "react") {
             res.json({
@@ -65,7 +73,7 @@ app.post("/template", async (req, res) => {
 
         res.status(403).json({ message: "Invalid project type" });
     } catch (error) {
-        console.error('OpenAI error:', error);
+        console.error('Deepseek API error:', error);
         res.status(500).json({ error: 'AI processing failed' });
     }
 });
@@ -73,20 +81,21 @@ app.post("/template", async (req, res) => {
 app.post("/chat", async (req, res) => {
     try {
         const messages = req.body.messages;
-        const completion = await openai.chat.completions.create({
-            model: "gpt-3.5-turbo",
+        const response = await deepseekApi.post('', {
+            model: "deepseek-chat",
             messages: [{
                 role: 'system',
                 content: getSystemPrompt()
             }, ...messages],
             max_tokens: 8000,
+            temperature: 0.7
         });
 
         res.json({
-            response: completion.choices[0].message.content
+            response: response.data.choices[0].message.content
         });
     } catch (error) {
-        console.error('OpenAI error:', error);
+        console.error('Deepseek API error:', error);
         res.status(500).json({ error: 'Chat processing failed' });
     }
 });
