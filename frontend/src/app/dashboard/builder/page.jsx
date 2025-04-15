@@ -2,17 +2,17 @@
 
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { StepsList } from '../components/StepsList';
-import { FileExplorer } from '../components/FileExplorer';
-import { TabView } from '../components/TabView';
-import { CodeEditor } from '../components/CodeEditor';
-import { PreviewFrame } from '../components/PreviewFrame';
-import { StepType } from '../types';
+import { StepsList } from '../../../components/StepsList';
+import { FileExplorer } from '../../../components/FileExplorer';
+import { TabView } from '../../../components/TabView';
+import { CodeEditor } from '../../../components/CodeEditor';
+import { PreviewFrame } from '../../../components/PreviewFrame';
+import { StepType } from '../../../types/bolt';
 import axios from 'axios';
 import { BACKEND_URL } from '../../../../config';
-import { parseXml } from '../steps';
-import { useWebContainer } from '../hooks/useWebContainer';
-import { Loader } from '../components/Loader';
+import { parseXml } from '../../../../step';
+import { useWebContainer } from '../../../hooks/useWebContainer';
+import { Loader } from '../../../components/Loader';
 
 export default function Builder() {
   const searchParams = useSearchParams();
